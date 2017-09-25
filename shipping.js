@@ -12,7 +12,7 @@ Shipping.prototype.calculate=function(amount) {
     for (var i=0;i<this.rates.length;i++) {
         var currentRate=this.rates[i];
         if(amount>=currentRate.min && (amount <= currentRate.max || amount ==null)) {
-            return currentRate.price;
+            return Math.round(currentRate.price*100)/100;
         }
     }
     return shippingCost;

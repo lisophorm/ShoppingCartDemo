@@ -17,6 +17,6 @@ Bundle.prototype.hasOffer = function (productA, productB) {
 Bundle.prototype.calcDiscount = function () {
     console.log('calculating discount');
     var discount = this.productB.price * this.discount;
-    console.log('discouinted price:', discount)
-    return discount;
+    console.log('discouinted price:', discount);
+    return Math.round(discount*100)/100;
 }

@@ -19,7 +19,7 @@ shoppingCart.bundle=singleBundle;
 
 // please forgive me for this sin
 function renderResult() {
-
+    $("#output").html(shoppingCart.renderItemized());
 }
 
 $(document).ready(function() {
