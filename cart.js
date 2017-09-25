@@ -20,10 +20,14 @@ var CheckOutUnit = function (cartItem) {
     this.price = cartItem.price;
 }
 
+CheckOutUnit.prototype.toString=function() {
+    return  '<td>' +this.sku+'</td><td align="center">' +this.price+'</td><td align="center">' +this.processed+'</td>';
+}
+
 var ShoppingCart = function () {
     this.catalog = [];
     this.cart = [];
-    this.bundle={};
+    this.bundle = {};
     this.shipping = new Shipping();
     this.subTotal = 0;
     this.shippingCost = 0;
@@ -73,55 +77,66 @@ ShoppingCart.prototype.saveCart = function () {
 }
 
 ShoppingCart.prototype.checkOut = function () {
-    console.log('cart content at checkout', this.cart);
 
-    var checkOutItems = [];
-    this.subTotal = 0
+
+    this.checkOutItems = [];
+    this.subTotal = 0;
+
+    // explodes the cart in single item products. this is to calculate more easily discounts
 
     for (var i = 0; i < this.cart.length; i++) {
         var current = this.cart[i];
         var quantity = this.cart[i].quantity;
-        console.log('current item quantity', quantity);
+        // adds multiple items of the same product according to quantity
         for (var a = 0; a < quantity; a++) {
-            checkOutItems.push(new CheckOutUnit(current));
+            this.checkOutItems.push(new CheckOutUnit(current));
         }
     }
 
     // iterations for bundle/offer
     // we mark as processed products to avoid duplicates
 
-    for (var i = 0; i < checkOutItems.length; i++) {
-        var productA=checkOutItems[i];
-        for(var a=0;a<checkOutItems.length;a++) {
+    for (var i = 0; i < this.checkOutItems.length; i++) {
+        var productA = this.checkOutItems[i];
+        for (var a = 0; a < this.checkOutItems.length; a++) {
             // skip if the item checks on itself
-            if(i!=a) {
-                var productB=checkOutItems[a];
-                console.log('checking '+i+':'+productA.sku+ ' versus '+a+' '+productB.sku);
-                if(this.bundle.hasOffer(productA,productB)) {
-                    console.log("PRODUCT HAS OFFER!!");
+            if (i != a) {
+                var productB = this.checkOutItems[a];
+                console.log('checking ' + i + ':' + productA.sku + ' versus ' + a + ' ' + productB.sku);
+                if (this.bundle.hasOffer(productA, productB)) {
                     // we mark the pair processed to avoid cumulative offers/bugs
-                    productA.processed=true;
-                    productB.processed=true;
-                    productB.price=this.bundle.calcDiscount();
+                    productA.processed = true;
+                    productB.processed = true;
+                    productB.price = this.bundle.calcDiscount();
                 }
             }
 
         }
     }
 
-    console.log('checkout Items processed', checkOutItems);
-    for (var i = 0; i < checkOutItems.length; i++) {
-        this.subTotal += checkOutItems[i].price;
+    console.log('checkout Items processed', this.checkOutItems);
+    for (var i = 0; i < this.checkOutItems.length; i++) {
+        this.subTotal += this.checkOutItems[i].price;
     }
+    // round up to avoid odd decimals
+    this.subTotal=Math.round(this.subTotal*100)/100
     console.log(this.subTotal);
     this.shippingCost = this.shipping.calculate(this.subTotal);
     console.log(this.shippingCost);
-    this.total=this.subTotal+this.shippingCost;
+    // round up to avoid odd decimals
+    this.total = Math.round((this.subTotal + this.shippingCost)*100)/100;
 }
 
-ShoppingCart.prototype.renderItemized=function(checkOutItems) {
-    var result='';
-    for (var i=0;i<checkOutItems.length;i++) {
-
+ShoppingCart.prototype.renderItemized = function () {
+    var result = '';
+    var result ='Subtotal: '+this.subTotal+' shipping: '+this.shippingCost+' total '+this.total+'<br/>';
+    result +='<br/><hr/>';
+    result +='<table border="1" cellpadding="8">'
+    result +='<tr><td>SKU</td><td>Final Price</td><td>Processed for discount?</td></tr>'
+    for (var i = 0; i < this.checkOutItems.length; i++) {
+        var current=this.checkOutItems[i];
+        result += '<tr>'+current.toString() + '</tr>';
     }
+    result +='</table>'
+    return result;
 }
