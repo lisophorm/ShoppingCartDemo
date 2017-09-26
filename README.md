@@ -1,6 +1,6 @@
 SHOPPING CART DEMO 
 
-Tested in Chrome. Download and run locally
+**Tested in Chrome. Download and run locally index.html and/or SpecRunner.html**
 
 In order to deliver this test ASAP I used the skeleton of a previous exercise.
 
