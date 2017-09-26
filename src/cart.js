@@ -28,6 +28,7 @@ var ShoppingCart = function () {
     this.catalog = [];
     this.cart = [];
     this.bundle = {};
+    this.checkOutItems = [];
     this.shipping = new Shipping();
     this.subTotal = 0;
     this.shippingCost = 0;
@@ -129,7 +130,7 @@ ShoppingCart.prototype.checkOut = function () {
 
 ShoppingCart.prototype.renderItemized = function () {
     var result = '';
-    var result ='Subtotal: '+this.subTotal+' shipping: '+this.shippingCost+' total '+this.total+'<br/>';
+    var result ='Subtotal: <strong>'+this.subTotal+'</strong> shipping:  <strong>'+this.shippingCost+'</strong> total  <strong>'+this.total+'</strong><br/>';
     result +='<br/><hr/>';
     result +='<table border="1" cellpadding="8">'
     result +='<tr><td>SKU</td><td>Final Price</td><td>Processed for discount?</td></tr>'
