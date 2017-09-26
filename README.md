@@ -1,14 +1,15 @@
 SHOPPING CART DEMO 
 Tested in Chrome
 
-This hopes to be a demo of the way I approach problems. In no way I would use this simple approach on a commercial project. And it's very unlikely I may use jQuery for anything else than a proof of concept.
+This hopes to be a demo of the way I approach problems. In no way I would use this methodology on a commercial project. And it's very unlikely I may use jQuery for anything else than a proof of concept.
 This is a "pure" Object Oriented implementation that can be really easily translated into ES6.
+Specrunner Tests only the Shopping Cart objects. index.js it just a quick hack to get a proof of concept.
 
 The shopping cart is split in logical modules (Objects):
 
-shipping.js -> calculates fixed shipping based on defined price ranges
-bundle.js -> simple product discount processor where if(product A) then productB.price*discount
-cart.js -> all the shopping cart logic. Embedding the bundle and the shipping objects.
+**shipping.js** -> calculates fixed shipping based on defined price ranges
+**bundle.js ->** simple product discount processor where if(product A) then productB.price*discount
+**cart.js ->** all the shopping cart logic. Embedding the bundle and the shipping objects.
 
 index.js -> load product and bootstraps the demo
 

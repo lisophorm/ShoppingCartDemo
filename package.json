@@ -8,7 +8,8 @@
   },
   "author": "Alfonso Florio",
   "license": "ISC",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "jquery": "^3.2.1"
   }
 }
